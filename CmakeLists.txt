@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.11)
+
+project(MyApp)
+
+list(APPEND _cpp_files
+    src/main.cpp
+    #append more fils here
+)
+
+set(ExeModuleName MyApp)
+add_executable(${ExeModuleName} ${_cpp_files})
+target_include_directories(${ExeModuleName} PRIVATE include)
