@@ -1,6 +1,7 @@
 #include <dlib.hpp>
 
-void main()
+int main()
 {
     bootDlib();
+    return 0;
 }
