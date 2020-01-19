@@ -18,18 +18,20 @@ include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
 #list cpp files
-list(APPEND _cpp_files
-    src/main.cpp
-    #append more fils here
+set(SlibModuleName SApp)
+add_library(${SlibModuleName} src/slib.cpp)
+target_include_directories(${SlibModuleName} PUBLIC include)
+target_link_libraries(${SlibModuleName} PUBLIC
+    CONAN_PKG::fmt
 )
+
+set(DlibModuleName DApp)
+add_library(${DlibModuleName} SHARED src/dlib.cpp)
+target_include_directories(${DlibModuleName} PUBLIC include)
+target_link_libraries(${DlibModuleName} PUBLIC ${SlibModuleName})
 
 #add exe module with include folder and source files above
 set(ExeModuleName MyApp)
-add_executable(${ExeModuleName} ${_cpp_files})
+add_executable(${ExeModuleName} src/exec.cpp)
 target_include_directories(${ExeModuleName} PUBLIC include)
-
-#link needed dependencies
-target_link_libraries(${ExeModuleName} PUBLIC
-    CONAN_PKG::fmt
-    #append more dependencies here
-)
+target_link_libraries(${ExeModuleName} PUBLIC ${DlibModuleName})
